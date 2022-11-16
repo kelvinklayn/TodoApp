@@ -9,6 +9,8 @@ import controller.TaskController;
 import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -35,9 +37,11 @@ public class MainScreen extends javax.swing.JFrame {
     public MainScreen() {
         initComponents();
         
+        setApplicationIcon();
         initDataController();
     	initComponentsModel();
         decorateTableTask();
+        centralizeMainScreen();
     }
 
     /**
@@ -369,13 +373,20 @@ public class MainScreen extends javax.swing.JFrame {
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
         Task task = taskListModel.getTasks().get(rowIndex);
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectListModel.get(projectIndex);
 
         switch (columnIndex) {
             case 3:
                 taskController.update(task);
                 break;
             case 4:
-
+                TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+                taskDialogScreen.setProject(project);
+                taskDialogScreen.isEditing = true;
+                taskDialogScreen.taskId = task.getId();
+                taskDialogScreen.setFields(task.getName(), task.getDeadline(), task.getDescription(), task.getNotes());
+                taskDialogScreen.setVisible(true);
                 break;
             case 5:
                 String[] op = {"DELETAR", "Cancelar"};
@@ -383,8 +394,6 @@ public class MainScreen extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op, op[0]);
                 if (option == 0) {
                     taskController.removeById(task.getId());
-                    int projectIndex = jListProjects.getSelectedIndex();
-                    Project project = (Project) projectListModel.get(projectIndex);
                     loadTasks(project.getId());
                 }
                 break;
@@ -527,5 +536,16 @@ public class MainScreen extends javax.swing.JFrame {
             jPanelEmptyList.setVisible(true);
             jPanelEmptyList.setSize(jPanel5.getWidth(), jPanel5.getHeight());
         }
+    }
+
+    private void centralizeMainScreen() {
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void setApplicationIcon() {
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\kelvi\\Documents\\NetBeansProjects\\TodoApp\\app\\src\\main\\resources\\checked.png");
+        this.setIconImage(icon);
     }
 }

@@ -60,7 +60,7 @@ public class TaskController {
                 + "notes = ?,"
                 + "deadline = ?,"
                 + "createdAt = ?,"
-                + "updatedAt = ?"
+                + "updatedAt = ? "
                 + "Where id = ?";
         
          Connection connection = null;

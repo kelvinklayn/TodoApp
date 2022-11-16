@@ -230,7 +230,13 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                 Date deadline = null;
                 deadline = dateFormat.parse(jFormattedTextField1.getText());
                 task.setDeadline(deadline);
-                controller.save(task);
+                if(isEditing){
+                    task.setId(taskId);
+                    controller.update(task);
+                }
+                else if(!isEditing){
+                    controller.save(task);
+                }
                 JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso!");
                 this.dispose();
             }else{
@@ -334,4 +340,21 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         }
         maskData.install(jFormattedTextField1);
     }
+    
+    public void setFields(String name, Date date, String description, String notes){
+        
+        jTextFieldName.setText(name);
+        
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        var formattedDate = (formatter.format(date));
+        String strNew = formattedDate.replace("-", "");
+        jFormattedTextField1.setText(strNew);
+        
+        jTextAreaDescription.setText(description);
+        jTextAreaNote.setText(notes);
+    }
+    
+    boolean isEditing = false;
+    int taskId = 0;
 }
