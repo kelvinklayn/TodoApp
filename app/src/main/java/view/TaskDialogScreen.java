@@ -232,6 +232,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                 task.setDeadline(deadline);
                 if(isEditing){
                     task.setId(taskId);
+                    task.setIsCompleted(isCompleted);
                     controller.update(task);
                 }
                 else if(!isEditing){
@@ -357,4 +358,5 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     
     boolean isEditing = false;
     int taskId = 0;
+    boolean isCompleted;
 }

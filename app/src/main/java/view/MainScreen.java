@@ -385,6 +385,7 @@ public class MainScreen extends javax.swing.JFrame {
                 taskDialogScreen.setProject(project);
                 taskDialogScreen.isEditing = true;
                 taskDialogScreen.taskId = task.getId();
+                taskDialogScreen.isEditing = task.getIsCompleted();
                 taskDialogScreen.setFields(task.getName(), task.getDeadline(), task.getDescription(), task.getNotes());
                 taskDialogScreen.setVisible(true);
                 break;
